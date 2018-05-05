@@ -60,6 +60,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
         copyrightL = new javax.swing.JLabel();
         jScrollPane4 = new javax.swing.JScrollPane();
         informationL = new javax.swing.JLabel();
+        notesL = new javax.swing.JLabel();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -80,7 +81,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
         startButton.setText("Start Scheduling");
         startButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startButtonActionPerformed(evt);
+                startProgram(evt);
             }
         });
 
@@ -125,6 +126,10 @@ public class EDFUserInterface extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(116, 116, 116)
+                .addComponent(titleL)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -153,7 +158,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -172,11 +177,11 @@ public class EDFUserInterface extends javax.swing.JFrame {
                                         .addComponent(attL, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(copyrightL))))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(titleL)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(notesL, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -192,7 +197,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(startButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 58, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(timeL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(missL, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -200,48 +205,36 @@ public class EDFUserInterface extends javax.swing.JFrame {
                                 .addComponent(jLabel1)
                                 .addComponent(outputText)
                                 .addComponent(jobMissedText)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(awtText)
-                            .addComponent(awtL, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel7))
-                        .addGap(3, 3, 3)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(attText)
-                            .addComponent(attL, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addGap(11, 11, 11)
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(38, 38, 38)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(notesL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(awtText)
+                    .addComponent(awtL, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(3, 3, 3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(attText)
+                    .addComponent(attL, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(copyrightL, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-//        if(t!=null) { t.stop(); }
-//        awtL.setText("");
-//        attL.setText("");
-//        
-//        timeTF.setText("0");
-//        String s = inputTA.getText();
-//        String[] ss = s.split("\n");
-//        int n = Integer.parseInt(ss[0]);
-//        t = new EDFCore(this,n);
-//        
-//        String[] proses;
-//        for (int i = 0; i < n; i++) {
-//            proses = ss[i+1].split(" ");
-//            t.addNewJob(proses[0], Integer.parseInt(proses[1]), Integer.parseInt(proses[2]));
-//        }
-//        
-//        setName();
-//        t.start();
+    /**
+     * Generated start button action performed
+     * @param evt 
+     */
+    private void startProgram(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startProgram
           timeL.setText(String.valueOf(0));
           String userInput = jobInputTA.getText();
           String[] splittedUserInput = userInput.split("\n");
@@ -255,10 +248,14 @@ public class EDFUserInterface extends javax.swing.JFrame {
             t.addNewJob(jobData[0], Integer.parseInt(jobData[1]), Integer.parseInt(jobData[2]), Integer.parseInt(jobData[3]));
             }
           setName();
+          setNote();
           t.start();
           
-    }//GEN-LAST:event_startButtonActionPerformed
+    }//GEN-LAST:event_startProgram
 
+    /**
+     * Method to set job name
+     */
     public void setName() {
         Job[] jobInstance = t.getJob();
         String jobName = "";
@@ -269,11 +266,6 @@ public class EDFUserInterface extends javax.swing.JFrame {
         this.tempInformation = jobName;
         
         informationL.setText(jobName);
-////        Job[] jobInstance = t.getJob();
-////        String s = "";
-////        for (int i = 0; i < jobInstance.length; i++) {
-////            s += jobInstance[i].name + " --> " + String.format("%3d",i+1) + "\n";
-//        }
     }
     
     /**
@@ -288,9 +280,9 @@ public class EDFUserInterface extends javax.swing.JFrame {
             b = b +  missedJob1.getJobName() + ", ";
         }
         b = b + "</h3>";
-        String combined = a + b;
-        informationL.setText(combined);
-    }
+            String combined = a + b;
+            informationL.setText(combined);
+        }
     
     public void show(Job[] job) {
         String status = "";
@@ -301,19 +293,10 @@ public class EDFUserInterface extends javax.swing.JFrame {
         status += String.format("%3d",totalJob+1) + ": " + job[totalJob].getStatus();
         
         schedulingOutputTA.setText(status);
-//        String s = "";
-//        int length = process.length-1;
-//        for (int i = 0; i < length; i++) {
-//            s += String.format("%3d",i+1) + ": " + process[i].s + "\n";
-//        }
-//        s += String.format("%3d",length+1) + ": " + process[length].s;
-//        
-//        outputTA.setText("Test");
     }
     
     public void showTime(int time) {
         timeL.setText(String.valueOf(time));
-//        timeTF.setText(String.valueOf(time));
     }
     
     public void showTotalMiss(int miss){
@@ -379,10 +362,23 @@ public class EDFUserInterface extends javax.swing.JFrame {
     private javax.swing.JTextArea jobInputTA;
     private javax.swing.JLabel jobMissedText;
     private javax.swing.JLabel missL;
+    private javax.swing.JLabel notesL;
     private javax.swing.JLabel outputText;
     private javax.swing.JTextArea schedulingOutputTA;
     private javax.swing.JButton startButton;
     private javax.swing.JLabel timeL;
     private javax.swing.JLabel titleL;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * Set hint on scheduling output text area
+     */
+    private void setNote() {
+        notesL.setText("<html>" +
+"    Info <br> O : On Work Queue <br>" +
+"    - : On Waiting Queue <br>" +
+"    I : CPU Idle <br>" +
+"    M / OM : Missed <br>" +
+"</html>");
+    }
 }

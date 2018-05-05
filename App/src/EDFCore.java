@@ -93,14 +93,7 @@ public class EDFCore extends Thread{
             if(jobInstance!=null){
                 for(int i=0; i<initialCapacity; i++){
                     if(i == jobInstance.getJobID()){
-                        if(jobInstance.getDeadline() > this.time)
                         jobArray[i].setStatus('O');
-                        else{
-                            this.missedJob[missCounter] = jobInstance;
-                            missCounter++;
-                            jobInstance.setStatus('M');
-                            averageTurnAround += (this.time - jobInstance.arrivalTime);
-                        }
                     }
                     else{
                         jobArray[i].setStatus('-');
@@ -111,24 +104,8 @@ public class EDFCore extends Thread{
                 jobInstance.burstTime--;
                 this.time++;
                 
-                //pikirkan kemungkinan apa saja ketika sebuah proses itu dikerjakan selama 1 detik:
-                // 1. proses masuk deadline
-                // 2. proses belum selesai
-                // 3. proses selesai
-                
-                
-                
-                //sudah dikerjakan satu detik
-                //diinputkan lagi ke ready queue
-                /// if p.dl = time then
-                   // jangan di offer
-                   // masukkan proses ke array proses miss
-                   // tambah counter miss
-
-                //   addchar tanda miss
-                
                 if(jobInstance.burstTime>0){
-                    if(jobInstance.deadline < time){
+                    if(jobInstance.deadline == time || jobInstance.deadline < time){
                         this.missedJob[missCounter] = jobInstance;
                         missCounter++;
                         jobInstance.setStatus('M');
@@ -271,6 +248,12 @@ class Job{
  */
 class BurstTimeJobComparator implements Comparator<Job>{
 
+    /**
+     * Method to compare 2 different job
+     * @param t1 the first job
+     * @param t2 the other job
+     * @return integer to sort the job
+     */
     @Override
     public int compare(Job t1, Job t2) {
         if(t1.getArrivalTime() < t2.getArrivalTime()) {
@@ -278,8 +261,6 @@ class BurstTimeJobComparator implements Comparator<Job>{
         } else if(t1.getArrivalTime() > t2.getArrivalTime()) {
             return 1;
         } else {
-            // if p1.dl < p2.dl return -1
-            //else  if p1.dl > p2. dl
             if(t1.getJobDeadline() < t2.getJobDeadline()){
                 return -1;
             }
