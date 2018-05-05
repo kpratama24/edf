@@ -1,0 +1,338 @@
+
+import java.util.Comparator;
+import java.util.PriorityQueue;
+
+
+
+/**
+ * EDF Core Algorithm
+ * @version 1.0
+ * @author Kevin Pratama
+ */
+public class EDFCore extends Thread{
+    
+    private EDFUserInterface userInterface;
+    
+    PriorityQueue<Job> waitingQueue; //Priority Queue for waiting jobs
+    PriorityQueue<Job> workQueue; //Priority Queue for jobs being done
+    private Job[] jobArray; //Array of job by user input
+   
+    
+    private int jobCounter; // counter for job
+    private int initialCapacity; //Initial priority queue capacity
+    private Job[] missedJob; // array to dump missed job
+    private int missCounter; // counter for missedJob
+    
+    /**
+     * Job Global Attributes
+     */ 
+    private int time; //Elapsed Time Total
+    private int averageTurnAround; //Average Turn Around Time
+    private int averageWaiting; //Average Waiting Time
+    
+    /**
+     * EDF Core Class Constructor
+     * @param userInterface EDF User Interface Object
+     * @param initialCapacity  job capacity specified by user input
+     */
+    public EDFCore(EDFUserInterface userInterface, int initialCapacity){
+        this.userInterface = userInterface;
+        
+        waitingQueue = new PriorityQueue<>(initialCapacity, new BurstTimeJobComparator());
+        workQueue = new PriorityQueue(initialCapacity, new JobComparator());
+        jobArray = new Job[initialCapacity];
+        missedJob = new Job[initialCapacity];
+        
+        this.jobCounter = 0;
+        this.initialCapacity = initialCapacity;
+    }
+    
+    /**
+     * Method for getting an array of job
+     * @return array of job
+     */
+    public Job[] getJob() {
+        return jobArray;
+    }
+    
+    /**
+     * Add new job, offer it to the waiting queue and array of job
+     * @param jobName job name
+     * @param arrivalTime job's arrival time
+     * @param burstTime job's burst time
+     * @param deadline job's deadline
+     */
+    public void addNewJob(String jobName, int arrivalTime, int burstTime, int deadline){
+        Job newJob = new Job(jobCounter,jobName,arrivalTime,burstTime,deadline);
+        waitingQueue.offer(newJob);
+        jobArray[jobCounter] = newJob;
+        jobCounter++;
+    }
+    
+    /**
+     * Method for running the program
+     */
+    @Override
+    public void run(){
+        
+        //Initialize required variables
+        Job jobInstance;
+        this.time = 0;
+        this.missCounter = 0;
+        this.averageTurnAround = 0;
+        this.averageWaiting = 0;
+        
+        while(!workQueue.isEmpty() || !waitingQueue.isEmpty()){
+            if(!waitingQueue.isEmpty()){
+                while(!waitingQueue.isEmpty() && waitingQueue.peek().arrivalTime<=time){
+                    workQueue.offer(waitingQueue.poll());
+                }
+            }
+            
+            jobInstance = workQueue.poll();
+            if(jobInstance!=null){
+                for(int i=0; i<initialCapacity; i++){
+                    if(i == jobInstance.getJobID()){
+                        if(jobInstance.getDeadline() > this.time)
+                        jobArray[i].setStatus('O');
+                        else{
+                            this.missedJob[missCounter] = jobInstance;
+                            missCounter++;
+                            jobInstance.setStatus('M');
+                            averageTurnAround += (this.time - jobInstance.arrivalTime);
+                        }
+                    }
+                    else{
+                        jobArray[i].setStatus('-');
+                    }
+                }
+                
+                averageWaiting += workQueue.size();
+                jobInstance.burstTime--;
+                this.time++;
+                
+                //pikirkan kemungkinan apa saja ketika sebuah proses itu dikerjakan selama 1 detik:
+                // 1. proses masuk deadline
+                // 2. proses belum selesai
+                // 3. proses selesai
+                
+                
+                
+                //sudah dikerjakan satu detik
+                //diinputkan lagi ke ready queue
+                /// if p.dl = time then
+                   // jangan di offer
+                   // masukkan proses ke array proses miss
+                   // tambah counter miss
+
+                //   addchar tanda miss
+                
+                if(jobInstance.burstTime>0){
+                    if(jobInstance.deadline < time){
+                        this.missedJob[missCounter] = jobInstance;
+                        missCounter++;
+                        jobInstance.setStatus('M');
+                        averageTurnAround += (this.time - jobInstance.arrivalTime);
+                    }
+                    else{
+                        workQueue.offer(jobInstance);
+                    }
+                }
+                else{
+                    averageTurnAround += (this.time - jobInstance.arrivalTime);
+                }
+            }
+            else{
+                for (int i = 0; i < initialCapacity; i++) {
+                    jobArray[i].setStatus('I');
+                }
+                this.time++;
+            }
+            
+            userInterface.show(jobArray);
+            userInterface.showTime(time);
+            userInterface.showTotalMiss(missCounter);
+            try{
+                Thread.sleep(500);
+            }
+            catch(InterruptedException e){
+                System.out.println("Interrupted");
+            }
+        }
+        
+        userInterface.finish(averageWaiting,averageTurnAround);
+        userInterface.setMissedJobOnInformation(missedJob);
+        
+    }
+        
+}
+
+/**
+ * Job Class 
+ * @version 1.0
+ * @author Kevin
+ */
+class Job{
+    
+    int jobID;
+    String jobName;
+    int arrivalTime;
+    int burstTime;
+    int deadline;
+    String status;
+    
+    
+    /**
+     * Constructor for the job class
+     * @param jobID id of the job
+     * @param jobName job name
+     * @param arrivalTime job arrival time
+     * @param burstTime job burst time
+     * @param deadline job deadline
+     */
+    public Job(int jobID, String jobName, int arrivalTime, int burstTime, int deadline){
+        this.jobID = jobID;
+        this.jobName = jobName;
+        this.arrivalTime = arrivalTime;
+        this.burstTime = burstTime;
+        this.deadline = deadline;
+        this.status = new String();
+    }
+
+    /**
+     * Method to get job deadline
+     * @return job deadline
+     */
+    public int getDeadline() {
+        return deadline;
+    }
+
+    /**
+     * Method to get job status
+     * @return job status
+     */
+    public String getStatus() {
+        return status;
+    }
+
+    /**
+     * Method to get the jobname
+     * @return job name
+     */
+    public String getJobName() {
+        return jobName;
+    }
+    
+    /**
+     * Method to set the job status
+     * @param status current job status
+     */
+    public void setStatus(char status) {
+        this.status += status;
+    }
+    
+    /**
+     * Method to get job arrival time
+     * @return arrival time of the job
+     */
+    public int getArrivalTime() {
+        return arrivalTime;
+    }
+
+    /**
+     * Method to get job burst time
+     * @return job burst time
+     */
+    public int getBurstTime() {
+        return burstTime;
+    }
+    
+    /**
+     * method to get the job id
+     * @return job id
+     */
+    public int getJobID(){
+        return this.jobID;
+    }
+    
+    /**
+     * method to get the job deadline
+     * @return 
+     */
+    public int getJobDeadline(){
+        return this.deadline;
+    }
+}
+
+/**
+ * Burst Time Comparator class
+ * @version 1.0
+ * @author Kevin
+ */
+class BurstTimeJobComparator implements Comparator<Job>{
+
+    @Override
+    public int compare(Job t1, Job t2) {
+        if(t1.getArrivalTime() < t2.getArrivalTime()) {
+            return -1;
+        } else if(t1.getArrivalTime() > t2.getArrivalTime()) {
+            return 1;
+        } else {
+            // if p1.dl < p2.dl return -1
+            //else  if p1.dl > p2. dl
+            if(t1.getJobDeadline() < t2.getJobDeadline()){
+                return -1;
+            }
+            else if(t1.getJobDeadline() > t2.getJobDeadline()){
+                return 1;
+            }
+            else{
+                if(t1.getBurstTime() < t2.getBurstTime()) {
+                    return -1;
+                } else if(t1.getBurstTime() > t2.getBurstTime()) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        }
+    }
+    
+}
+
+/**
+ * Job Comparator Class
+ * @author Kevin
+ */
+class JobComparator implements Comparator<Job>{
+
+    /**
+     * Method to compare 2 different job
+     * @param t the first job
+     * @param t1 the second job
+     * @return integer to sort the job
+     */
+    @Override
+    public int compare(Job t1, Job t2) {
+       // if p1.dl < p2.dl return -1
+        // else  if p1.dl > p2. dl
+        // jika DL sama, maka cek BT
+        
+        if(t1.getJobDeadline() < t2.getJobDeadline()){
+            return -1;
+        }
+        else if (t1.getJobDeadline() > t2.getJobDeadline()){
+            return 1;
+        }
+        else{
+            if(t1.getBurstTime() < t2.getBurstTime()) {
+                return -1;
+            } else if(t1.getBurstTime() > t2.getBurstTime()) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
+    
+}

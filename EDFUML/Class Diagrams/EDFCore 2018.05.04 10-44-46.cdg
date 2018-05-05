@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="EDFCore">
+  <ClassDiagramComponents>
+    <Class name="EDFCore" package="" visibility="public" xPosition="295.0" yPosition="438.0">
+      <Fields>
+        <Field name="userInterface" type="EDFUserInterface" visibility="private"/>
+        <Field name="waitingQueue" type="PriorityQueue&lt;Job&gt;" visibility="package"/>
+        <Field name="workQueue" type="PriorityQueue&lt;Job&gt;" visibility="package"/>
+        <Field name="jobArray" type="Job[]" visibility="private"/>
+        <Field name="jobCounter" type="int" visibility="private"/>
+        <Field name="initialCapacity" type="int" visibility="private"/>
+        <Field name="time" type="int" visibility="private"/>
+        <Field name="averageTurnAround" type="int" visibility="private"/>
+        <Field name="averageWaiting" type="int" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="EDFUserInterface" name="userInterface"/>
+          <Argument type="int" name="initialCapacity"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="getJob" returnType="Job[]" visibility="public"/>
+        <Method name="addNewJob" returnType="void" visibility="public">
+          <Argument type="String" name="jobName"/>
+          <Argument type="int" name="arrivalTime"/>
+          <Argument type="int" name="burstTime"/>
+          <Argument type="int" name="deadline"/>
+        </Method>
+        <Method name="run" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="Job" package="" visibility="public" xPosition="305.0" yPosition="54.0">
+      <Fields>
+        <Field name="jobID" type="int" visibility="package"/>
+        <Field name="jobName" type="String" visibility="package"/>
+        <Field name="arrivalTime" type="int" visibility="package"/>
+        <Field name="burstTime" type="int" visibility="package"/>
+        <Field name="deadline" type="int" visibility="package"/>
+        <Field name="status" type="String" visibility="package"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="int" name="jobID"/>
+          <Argument type="String" name="jobName"/>
+          <Argument type="int" name="arrivalTime"/>
+          <Argument type="int" name="burstTime"/>
+          <Argument type="int" name="deadline"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="setStatus" returnType="void" visibility="public">
+          <Argument type="char" name="status"/>
+        </Method>
+        <Method name="getArrivalTime" returnType="int" visibility="public"/>
+        <Method name="getBurstTime" returnType="int" visibility="public"/>
+        <Method name="getJobID" returnType="int" visibility="public"/>
+        <Method name="getJobDeadline" returnType="int" visibility="public"/>
+      </Methods>
+    </Class>
+    <Class name="BurstTimeJobComparator" package="" visibility="public" xPosition="798.0" yPosition="158.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="compare" returnType="int" visibility="public">
+          <Argument type="Job" name="t1"/>
+          <Argument type="Job" name="t2"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="JobComparator" package="" visibility="public" xPosition="798.0" yPosition="476.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="compare" returnType="int" visibility="public">
+          <Argument type="Job" name="t1"/>
+          <Argument type="Job" name="t2"/>
+        </Method>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="workQueue" source="EDFCore" target="Job" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="PriorityQueue&lt;Job&gt;"/>
+    <HasRelation name="waitingQueue" source="EDFCore" target="Job" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="PriorityQueue&lt;Job&gt;"/>
+    <UseRelation source="JobComparator" target="Job" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="EDFCore" target="Job" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="BurstTimeJobComparator" target="Job" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>
