@@ -70,12 +70,11 @@ public class EDFUserInterface extends javax.swing.JFrame {
         setTitle("Earliest Deadline First");
 
         jobInputTA.setColumns(20);
-        jobInputTA.setFont(new java.awt.Font("Courier New", 0, 13)); // NOI18N
+        jobInputTA.setFont(new java.awt.Font("Courier New", 0, 18)); // NOI18N
         jobInputTA.setRows(5);
         jobInputTA.setText("4\nJ1 0 7 10\nJ2 2 4 12\nJ3 4 1 14\nJ4 5 4 16\n");
         jobInputTA.setMaximumSize(new java.awt.Dimension(164, 46));
         jobInputTA.setMinimumSize(new java.awt.Dimension(164, 46));
-        jobInputTA.setPreferredSize(new java.awt.Dimension(164, 46));
         jScrollPane1.setViewportView(jobInputTA);
 
         startButton.setText("Start Scheduling");
@@ -87,7 +86,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
 
         schedulingOutputTA.setEditable(false);
         schedulingOutputTA.setColumns(20);
-        schedulingOutputTA.setFont(new java.awt.Font("Courier New", 0, 13)); // NOI18N
+        schedulingOutputTA.setFont(new java.awt.Font("Courier New", 0, 18)); // NOI18N
         schedulingOutputTA.setRows(5);
         jScrollPane2.setViewportView(schedulingOutputTA);
 
@@ -112,7 +111,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
         jobMissedText.setText("Job Missed:");
 
         titleL.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        titleL.setText("Earliest Deadline First Scheduling Simulation");
+        titleL.setText("Earliest Deadline First Scheduling Simulator");
 
         copyrightL.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
         copyrightL.setText("2018. Kevin Pratama ");
