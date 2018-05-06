@@ -139,6 +139,7 @@ public class EDFCore extends Thread{
         
         userInterface.finish(averageWaiting,averageTurnAround);
         userInterface.setMissedJobOnInformation(missedJob);
+        userInterface.showCompleteDialog();
         
     }
         
@@ -295,10 +296,6 @@ class JobComparator implements Comparator<Job>{
      */
     @Override
     public int compare(Job t1, Job t2) {
-       // if p1.dl < p2.dl return -1
-        // else  if p1.dl > p2. dl
-        // jika DL sama, maka cek BT
-        
         if(t1.getJobDeadline() < t2.getJobDeadline()){
             return -1;
         }

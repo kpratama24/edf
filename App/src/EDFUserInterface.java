@@ -1,5 +1,5 @@
 
-import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.text.DefaultCaret;
 
 
@@ -111,7 +111,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
 
         jobMissedText.setText("Job Missed:");
 
-        titleL.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        titleL.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         titleL.setText("Earliest Deadline First Scheduling Simulation");
 
         copyrightL.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
@@ -243,10 +243,16 @@ public class EDFUserInterface extends javax.swing.JFrame {
           
           //Add job to waiting queue
           String[] jobData;
-          for (int i = 0; i < initialCapacity; i++) {
-            jobData = splittedUserInput[i+1].split(" ");
-            t.addNewJob(jobData[0], Integer.parseInt(jobData[1]), Integer.parseInt(jobData[2]), Integer.parseInt(jobData[3]));
-            }
+          try{
+            for (int i = 0; i < initialCapacity; i++) {
+              jobData = splittedUserInput[i+1].split(" ");
+              t.addNewJob(jobData[0], Integer.parseInt(jobData[1]), Integer.parseInt(jobData[2]), Integer.parseInt(jobData[3]));
+              }
+          }
+          catch(IndexOutOfBoundsException e){
+              JOptionPane.showMessageDialog(this, "Make sure that the array sizes match the total job input \n"
+                      + "Expected job total is : "+ splittedUserInput[0],"Oops !",JOptionPane.ERROR_MESSAGE);
+          }
           setName();
           setNote();
           t.start();
@@ -284,6 +290,10 @@ public class EDFUserInterface extends javax.swing.JFrame {
             informationL.setText(combined);
         }
     
+    /**
+     * Method to show the working job at scheduling text area
+     * @param job [not available]
+     */
     public void show(Job[] job) {
         String status = "";
         int totalJob = job.length-1;
@@ -295,14 +305,27 @@ public class EDFUserInterface extends javax.swing.JFrame {
         schedulingOutputTA.setText(status);
     }
     
+    /**
+     * Method to show the elapsed time
+     * @param time elapsed time
+     */
     public void showTime(int time) {
         timeL.setText(String.valueOf(time));
     }
     
+    /**
+     * Method to show miss total at current scheduling
+     * @param miss total scheduling miss
+     */
     public void showTotalMiss(int miss){
         missL.setText(String.valueOf(miss));
     }
     
+    /**
+     * Method to show average waiting time and average turnaround time
+     * @param awt average waiting time
+     * @param att average turnaround time
+     */
     public void finish(double awt, double att) {
         awtL.setText(String.format("%.5f",awt));
         attL.setText(String.format("%.5f",att));
@@ -375,10 +398,17 @@ public class EDFUserInterface extends javax.swing.JFrame {
      */
     private void setNote() {
         notesL.setText("<html>" +
-"    Info <br> O : On Work Queue <br>" +
-"    - : On Waiting Queue <br>" +
-"    I : CPU Idle <br>" +
-"    M / OM : Missed <br>" +
-"</html>");
+        "    Info <br> O : On Work Queue <br>" +
+        "    - : On Waiting Queue <br>" +
+        "    I : CPU Idle <br>" +
+        "    M / OM : Missed <br>" +
+        "</html>");
+    }
+
+    /**
+     * Method to show complete dialog when scheduling is done
+     */
+    void showCompleteDialog() {
+        JOptionPane.showMessageDialog(this, "Scheduling completed","Info",JOptionPane.INFORMATION_MESSAGE);
     }
 }
