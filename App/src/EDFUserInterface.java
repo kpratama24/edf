@@ -335,8 +335,8 @@ public class EDFUserInterface extends javax.swing.JFrame {
      * @param att average turnaround time
      */
     public void finish(double awt, double att) {
-        awtL.setText(String.format("%.5f",awt));
-        attL.setText(String.format("%.5f",att));
+        awtL.setText(String.format("%.4f",awt));
+        attL.setText(String.format("%.4f",att));
     }
     
     /**
