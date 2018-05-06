@@ -72,7 +72,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
         jobInputTA.setColumns(20);
         jobInputTA.setFont(new java.awt.Font("Courier New", 0, 13)); // NOI18N
         jobInputTA.setRows(5);
-        jobInputTA.setText("4\np1 0 7 10\np2 2 4 12\np3 4 1 14\np4 5 4 16\n");
+        jobInputTA.setText("4\nJ1 0 7 10\nJ2 2 4 12\nJ3 4 1 14\nJ4 5 4 16\n");
         jobInputTA.setMaximumSize(new java.awt.Dimension(164, 46));
         jobInputTA.setMinimumSize(new java.awt.Dimension(164, 46));
         jobInputTA.setPreferredSize(new java.awt.Dimension(164, 46));
@@ -91,7 +91,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
         schedulingOutputTA.setRows(5);
         jScrollPane2.setViewportView(schedulingOutputTA);
 
-        jLabel1.setText("Time:");
+        jLabel1.setText("Elapsed Time:");
 
         awtText.setText("Average Waiting Time: ");
 
@@ -252,6 +252,14 @@ public class EDFUserInterface extends javax.swing.JFrame {
           catch(IndexOutOfBoundsException e){
               JOptionPane.showMessageDialog(this, "Make sure that the array sizes match the total job input \n"
                       + "Expected job total is : "+ splittedUserInput[0],"Oops !",JOptionPane.ERROR_MESSAGE);
+          }
+          catch(NumberFormatException e2){
+              JOptionPane.showMessageDialog(this, "Make sure that your input is correct \n"
+                      + "Expected job data per input is is : [JobName] [Arrival Time] [Burst Time] [Deadline]","Oops !",JOptionPane.ERROR_MESSAGE);
+          }
+          catch(NullPointerException e3){
+              JOptionPane.showMessageDialog(this, "Make sure that your input is correct \n"
+                      + "Required job data per input is is : [JobName] [Arrival Time] [Burst Time] [Deadline]","Oops !",JOptionPane.ERROR_MESSAGE);
           }
           setName();
           setNote();
