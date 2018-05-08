@@ -2,7 +2,7 @@
 
 <ClassDiagram name="EDFCore">
   <ClassDiagramComponents>
-    <Class name="EDFCore" package="" visibility="public" xPosition="295.0" yPosition="438.0">
+    <Class name="EDFCore" package="" visibility="public" xPosition="20.0" yPosition="20.0">
       <Fields>
         <Field name="userInterface" type="EDFUserInterface" visibility="private"/>
         <Field name="waitingQueue" type="PriorityQueue&lt;Job&gt;" visibility="package"/>
@@ -10,6 +10,8 @@
         <Field name="jobArray" type="Job[]" visibility="private"/>
         <Field name="jobCounter" type="int" visibility="private"/>
         <Field name="initialCapacity" type="int" visibility="private"/>
+        <Field name="missedJob" type="Job[]" visibility="private"/>
+        <Field name="missCounter" type="int" visibility="private"/>
         <Field name="time" type="int" visibility="private"/>
         <Field name="averageTurnAround" type="int" visibility="private"/>
         <Field name="averageWaiting" type="int" visibility="private"/>
@@ -31,7 +33,7 @@
         <Method name="run" returnType="void" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="Job" package="" visibility="public" xPosition="305.0" yPosition="54.0">
+    <Class name="Job" package="" visibility="public" xPosition="320.0" yPosition="20.0">
       <Fields>
         <Field name="jobID" type="int" visibility="package"/>
         <Field name="jobName" type="String" visibility="package"/>
@@ -50,6 +52,9 @@
         </Constructor>
       </Constructors>
       <Methods>
+        <Method name="getDeadline" returnType="int" visibility="public"/>
+        <Method name="getStatus" returnType="String" visibility="public"/>
+        <Method name="getJobName" returnType="String" visibility="public"/>
         <Method name="setStatus" returnType="void" visibility="public">
           <Argument type="char" name="status"/>
         </Method>
@@ -59,7 +64,7 @@
         <Method name="getJobDeadline" returnType="int" visibility="public"/>
       </Methods>
     </Class>
-    <Class name="BurstTimeJobComparator" package="" visibility="public" xPosition="798.0" yPosition="158.0">
+    <Class name="BurstTimeJobComparator" package="" visibility="public" xPosition="620.0" yPosition="20.0">
       <Fields/>
       <Constructors/>
       <Methods>
@@ -69,7 +74,7 @@
         </Method>
       </Methods>
     </Class>
-    <Class name="JobComparator" package="" visibility="public" xPosition="798.0" yPosition="476.0">
+    <Class name="JobComparator" package="" visibility="public" xPosition="920.0" yPosition="20.0">
       <Fields/>
       <Constructors/>
       <Methods>
@@ -82,9 +87,9 @@
   </ClassDiagramComponents>
   <ClassDiagramRelations>
     <HasRelation name="workQueue" source="EDFCore" target="Job" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="PriorityQueue&lt;Job&gt;"/>
-    <HasRelation name="waitingQueue" source="EDFCore" target="Job" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="PriorityQueue&lt;Job&gt;"/>
-    <UseRelation source="JobComparator" target="Job" sourceCardinality="1..1" targetCardinality="1..1"/>
     <UseRelation source="EDFCore" target="Job" sourceCardinality="1..1" targetCardinality="1..1"/>
     <UseRelation source="BurstTimeJobComparator" target="Job" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="JobComparator" target="Job" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="waitingQueue" source="EDFCore" target="Job" type="Aggregation" sourceCardinality="1..1" targetCardinality="0..*" collectionType="PriorityQueue&lt;Job&gt;"/>
   </ClassDiagramRelations>
 </ClassDiagram>

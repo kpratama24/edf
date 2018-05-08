@@ -104,19 +104,19 @@ public class EDFCore extends Thread{
                 jobInstance.burstTime--;
                 this.time++;
                 
-                if(jobInstance.burstTime>0){
-                    if(jobInstance.deadline == time || jobInstance.deadline < time){
+                if(jobInstance.getBurstTime()>0){
+                    if(jobInstance.getDeadline() == time || jobInstance.getDeadline() < time){
                         this.missedJob[missCounter] = jobInstance;
                         missCounter++;
                         jobInstance.setStatus('M');
-                        averageTurnAround += (this.time - jobInstance.arrivalTime);
+                        averageTurnAround += (this.time - jobInstance.getArrivalTime());
                     }
                     else{
                         workQueue.offer(jobInstance);
                     }
                 }
                 else{
-                    averageTurnAround += (this.time - jobInstance.arrivalTime);
+                    averageTurnAround += (this.time - jobInstance.getArrivalTime());
                 }
             }
             else{

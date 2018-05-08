@@ -9,7 +9,7 @@ import javax.swing.text.DefaultCaret;
  */
 
 /**
- *
+ * EDF User interface class
  * @author Kevin
  */
 public class EDFUserInterface extends javax.swing.JFrame {
@@ -18,7 +18,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
     String tempInformation;
     
     /**
-     * Creates new form SRTFGUI
+     * Creates new form EDFUserInterface
      */
     public EDFUserInterface() {
         initComponents();
