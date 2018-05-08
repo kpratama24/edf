@@ -92,7 +92,13 @@ public class EDFCore extends Thread{
             jobInstance = workQueue.poll();
             if(jobInstance!=null){
                 for(int i=0; i<initialCapacity; i++){
-                    if(i == jobInstance.getJobID()){
+                    if(i == jobInstance.getJobID() && jobInstance.deadline <= time){                                                
+                        jobArray[i].setStatus('M');
+                        this.missedJob[missCounter] = jobInstance;
+                        missCounter++;
+                        jobInstance.setBurstTime(0);
+ 
+                    } else if (i == jobInstance.getJobID()) {
                         jobArray[i].setStatus('O');
                     }
                     else{
@@ -104,19 +110,11 @@ public class EDFCore extends Thread{
                 jobInstance.burstTime--;
                 this.time++;
                 
-                if(jobInstance.getBurstTime()>0){
-                    if(jobInstance.getDeadline() == time || jobInstance.getDeadline() < time){
-                        this.missedJob[missCounter] = jobInstance;
-                        missCounter++;
-                        jobInstance.setStatus('M');
-                        averageTurnAround += (this.time - jobInstance.getArrivalTime());
-                    }
-                    else{
-                        workQueue.offer(jobInstance);
-                    }
+                if(jobInstance.burstTime>0){
+                    workQueue.offer(jobInstance);
                 }
-                else{
-                    averageTurnAround += (this.time - jobInstance.getArrivalTime());
+                else if (jobInstance.getDeadline() >= this.time){ //Burst time <=0
+                    averageTurnAround += (this.time - jobInstance.arrivalTime);
                 }
             }
             else{
@@ -137,7 +135,7 @@ public class EDFCore extends Thread{
             }
         }
         
-        userInterface.finish(averageWaiting,averageTurnAround);
+        userInterface.finish(averageWaiting/(double) initialCapacity,averageTurnAround/(double)(initialCapacity - missCounter));
         userInterface.setMissedJobOnInformation(missedJob);
         userInterface.showCompleteDialog();
         
@@ -175,6 +173,14 @@ class Job{
         this.burstTime = burstTime;
         this.deadline = deadline;
         this.status = new String();
+    }
+
+    /**
+     * Method to set job burst time
+     * @param burstTime job burst time
+     */
+    public void setBurstTime(int burstTime) {
+        this.burstTime = burstTime;
     }
 
     /**
