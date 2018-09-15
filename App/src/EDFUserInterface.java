@@ -16,6 +16,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
 
     EDFCore t;
     String tempInformation;
+    boolean hardRealTime;
     
     /**
      * Creates new form EDFUserInterface
@@ -61,6 +62,8 @@ public class EDFUserInterface extends javax.swing.JFrame {
         schedulingOutputTA = new javax.swing.JTextArea();
         jScrollPane7 = new javax.swing.JScrollPane();
         jobInputTA = new javax.swing.JTextArea();
+        jLabel2 = new javax.swing.JLabel();
+        combo_schedulingMode = new javax.swing.JComboBox<>();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -118,6 +121,15 @@ public class EDFUserInterface extends javax.swing.JFrame {
         jobInputTA.setText("4\nJ1 0 2 3\nJ2 1 2 5\nJ3 2 2 6\nJ4 4 1 8");
         jScrollPane7.setViewportView(jobInputTA);
 
+        jLabel2.setText("Mode:");
+
+        combo_schedulingMode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Soft Real Time", "Hard Real Time" }));
+        combo_schedulingMode.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentHidden(java.awt.event.ComponentEvent evt) {
+                combo_schedulingModeComponentHidden(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -149,15 +161,18 @@ public class EDFUserInterface extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(missL, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(timeL, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(121, 121, 121))
+                                .addComponent(jLabel1))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(timeL, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2)
+                            .addComponent(combo_schedulingMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(112, 112, 112))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(31, 31, 31)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -185,7 +200,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
                 .addGroup(layout.createSequentialGroup()
                     .addGap(41, 41, 41)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(171, Short.MAX_VALUE)))
+                    .addContainerGap(212, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -195,7 +210,8 @@ public class EDFUserInterface extends javax.swing.JFrame {
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(inputText)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -203,7 +219,12 @@ public class EDFUserInterface extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(startButton)
                         .addGap(45, 45, 45))
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(combo_schedulingMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(timeL, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -244,7 +265,16 @@ public class EDFUserInterface extends javax.swing.JFrame {
           String userInput = jobInputTA.getText();
           String[] splittedUserInput = userInput.split("\n");
           int initialCapacity = Integer.parseInt(splittedUserInput[0]);
-          t = new EDFCore(this, initialCapacity);
+          
+          if(combo_schedulingMode.getSelectedIndex() == 1)
+              hardRealTime = true;
+          
+          //Debugging purposes
+          if(hardRealTime){
+              System.out.println("Current mode is hard real time");
+          }
+          
+          t = new EDFCore(this, initialCapacity, hardRealTime);
           
           //Add job to waiting queue
           String[] jobData;
@@ -271,6 +301,10 @@ public class EDFUserInterface extends javax.swing.JFrame {
           t.start();
           
     }//GEN-LAST:event_startProgram
+
+    private void combo_schedulingModeComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_combo_schedulingModeComponentHidden
+        // TODO add your handling code here:
+    }//GEN-LAST:event_combo_schedulingModeComponentHidden
 
     /**
      * Method to set job name
@@ -383,10 +417,12 @@ public class EDFUserInterface extends javax.swing.JFrame {
     private javax.swing.JLabel attText;
     private javax.swing.JLabel awtL;
     private javax.swing.JLabel awtText;
+    private javax.swing.JComboBox<String> combo_schedulingMode;
     private javax.swing.JLabel copyrightL;
     private javax.swing.JLabel informationL;
     private javax.swing.JLabel inputText;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollBar jScrollBar1;
@@ -415,13 +451,21 @@ public class EDFUserInterface extends javax.swing.JFrame {
         "    - : On Waiting Queue <br>" +
         "    I : CPU Idle <br>" +
         "    M / OM : Missed <br>" +
+        "    S : Interrupted (only available in hard real time mode)" +
         "</html>");
     }
 
     /**
      * Method to show complete dialog when scheduling is done
+     * @param isHardRealTime determine if the current job is hard real time
+     * or not
      */
-    void showCompleteDialog() {
-        JOptionPane.showMessageDialog(this, "Scheduling completed","Info",JOptionPane.INFORMATION_MESSAGE);
+    void showCompleteDialog(boolean isHardRealTime) {
+        if(isHardRealTime){
+            JOptionPane.showMessageDialog(this, "Hard Real Time Scheduling completed","Info",JOptionPane.INFORMATION_MESSAGE);
+        }
+        else{
+            JOptionPane.showMessageDialog(this, "Soft Real Time Scheduling completed","Info",JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 }
