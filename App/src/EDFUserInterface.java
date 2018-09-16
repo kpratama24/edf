@@ -1,5 +1,12 @@
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileReader;
+import java.io.IOException;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.DefaultCaret;
 
 
@@ -64,6 +71,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
         jobInputTA = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         combo_schedulingMode = new javax.swing.JComboBox<>();
+        buttonLoadFromFile = new javax.swing.JButton();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -124,9 +132,11 @@ public class EDFUserInterface extends javax.swing.JFrame {
         jLabel2.setText("Mode:");
 
         combo_schedulingMode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Soft Real Time", "Hard Real Time" }));
-        combo_schedulingMode.addComponentListener(new java.awt.event.ComponentAdapter() {
-            public void componentHidden(java.awt.event.ComponentEvent evt) {
-                combo_schedulingModeComponentHidden(evt);
+
+        buttonLoadFromFile.setText("Load From File");
+        buttonLoadFromFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonLoadFromFileActionPerformed(evt);
             }
         });
 
@@ -135,25 +145,24 @@ public class EDFUserInterface extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(116, 116, 116)
-                .addComponent(titleL)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addComponent(outputText))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(inputText)
-                                    .addComponent(startButton)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(31, 31, 31)
+                                        .addComponent(outputText))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(inputText))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(8, 8, 8))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(buttonLoadFromFile, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
@@ -166,7 +175,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 10, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(timeL, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -194,7 +203,16 @@ public class EDFUserInterface extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(382, 382, 382)
                                 .addComponent(notesL, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE)))))
+                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(116, 116, 116)
+                                .addComponent(titleL))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(startButton)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
@@ -215,13 +233,16 @@ public class EDFUserInterface extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(buttonLoadFromFile)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(startButton)
-                        .addGap(45, 45, 45))
+                        .addGap(13, 13, 13))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 59, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(combo_schedulingMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -302,9 +323,19 @@ public class EDFUserInterface extends javax.swing.JFrame {
           
     }//GEN-LAST:event_startProgram
 
-    private void combo_schedulingModeComponentHidden(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_combo_schedulingModeComponentHidden
+    private void buttonLoadFromFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLoadFromFileActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_combo_schedulingModeComponentHidden
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Text Documents","txt"));
+        fileChooser.setAcceptAllFileFilterUsed(true);
+        int resultValue = fileChooser.showOpenDialog(this);
+        
+        if(resultValue == JFileChooser.APPROVE_OPTION){
+            storeDataToTextField(fileChooser.getSelectedFile());
+        }
+    }//GEN-LAST:event_buttonLoadFromFileActionPerformed
 
     /**
      * Method to set job name
@@ -417,6 +448,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
     private javax.swing.JLabel attText;
     private javax.swing.JLabel awtL;
     private javax.swing.JLabel awtText;
+    private javax.swing.JButton buttonLoadFromFile;
     private javax.swing.JComboBox<String> combo_schedulingMode;
     private javax.swing.JLabel copyrightL;
     private javax.swing.JLabel informationL;
@@ -466,6 +498,30 @@ public class EDFUserInterface extends javax.swing.JFrame {
         }
         else{
             JOptionPane.showMessageDialog(this, "Soft Real Time Scheduling completed","Info",JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    /**
+     * Method to store loaded txt files to text field
+     * @param selectedFile 
+     */
+    private void storeDataToTextField(File selectedFile) {
+        jobInputTA.setText(""); //empty the job input
+        
+        BufferedReader br;
+        FileReader fr;
+        
+        try{
+            fr = new FileReader(selectedFile);
+            br = new BufferedReader(fr);
+            
+            String currentInputLine;
+            
+            while((currentInputLine = br.readLine()) != null){
+                jobInputTA.append(currentInputLine + "\n");
+            }
+        } catch (IOException e){
+            e.printStackTrace();
         }
     }
 }
