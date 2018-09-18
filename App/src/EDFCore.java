@@ -112,6 +112,9 @@ public class EDFCore extends Thread{
                     } else if (i == jobInstance.getJobID()) {
                         jobArray[i].setStatus('O');
                     }
+                    else if(jobArray[i].burstTime<=0){
+                        jobArray[i].setStatus('F');
+                    }
                     else{
                         jobArray[i].setStatus('-');
                     }
@@ -130,7 +133,12 @@ public class EDFCore extends Thread{
             }
             else{
                 for (int i = 0; i < initialCapacity; i++) {
-                    jobArray[i].setStatus('I');
+                    if(jobArray[i].burstTime<=0){
+                        jobArray[i].setStatus('F');
+                    }
+                    else{
+                        jobArray[i].setStatus('I');
+                    }
                 }
                 this.time++;
             }
@@ -164,6 +172,7 @@ public class EDFCore extends Thread{
         this.missCounter = 0;
         this.averageTurnAround = 0;
         this.averageWaiting = 0;
+        int numberOfFinishedJob = 0; //only used when not all jobs is finished by the program.
         
         while(!workQueue.isEmpty() || !waitingQueue.isEmpty()){
             if(redFlag){
@@ -183,6 +192,7 @@ public class EDFCore extends Thread{
                         if(isHardRealTime){
                             redFlag = true;
                             jobArray[i].setStatus('S');
+                            averageWaiting-=workQueue.size();
                             break;
                         }
                         jobArray[i].setStatus('M');
@@ -192,6 +202,9 @@ public class EDFCore extends Thread{
  
                     } else if (i == jobInstance.getJobID()) {
                         jobArray[i].setStatus('O');
+                    }
+                    else if(jobArray[i].burstTime<=0){
+                        jobArray[i].setStatus('F');
                     }
                     else{
                         jobArray[i].setStatus('-');
@@ -207,11 +220,17 @@ public class EDFCore extends Thread{
                 }
                 else if (jobInstance.getDeadline() >= this.time){ //Burst time <=0
                     averageTurnAround += (this.time - jobInstance.arrivalTime);
+                    numberOfFinishedJob++;
                 }
             }
             else{
                 for (int i = 0; i < initialCapacity; i++) {
-                    jobArray[i].setStatus('I');
+                    if(jobArray[i].burstTime<=0){
+                        jobArray[i].setStatus('F');
+                    }
+                    else{
+                        jobArray[i].setStatus('I');
+                    }
                 }
                 this.time++;
             }
@@ -227,7 +246,18 @@ public class EDFCore extends Thread{
             }
         }
         
-        userInterface.finish(averageWaiting/(double) initialCapacity,averageTurnAround/(double)(initialCapacity - missCounter));
+        if(redFlag){
+            int nWaiting = 0;
+            for(int i=0; i<initialCapacity;i++){
+                if(jobArray[i].arrivalTime < this.time - 1)
+                    nWaiting++;
+            }
+            userInterface.finish(averageWaiting/(double) nWaiting ,averageTurnAround/(double) numberOfFinishedJob);
+        }
+        else{
+            userInterface.finish(averageWaiting/(double) initialCapacity,averageTurnAround/(double)(initialCapacity - missCounter));
+
+        }
         userInterface.setMissedJobOnInformation(missedJob);
         userInterface.showCompleteDialog(true);
     }

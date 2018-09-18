@@ -287,12 +287,19 @@ public class EDFUserInterface extends javax.swing.JFrame {
           String[] splittedUserInput = userInput.split("\n");
           int initialCapacity = Integer.parseInt(splittedUserInput[0]);
           
-          if(combo_schedulingMode.getSelectedIndex() == 1)
+          if(combo_schedulingMode.getSelectedIndex() == 1){
               hardRealTime = true;
+          }
+          else{
+              hardRealTime = false;
+          }
           
           //Debugging purposes
           if(hardRealTime){
               System.out.println("Current mode is hard real time");
+          }
+          else{
+              System.out.println("Current mode is soft real time");
           }
           
           t = new EDFCore(this, initialCapacity, hardRealTime);
@@ -318,7 +325,6 @@ public class EDFUserInterface extends javax.swing.JFrame {
                       + "Required job data per input is is : [JobName] [Arrival Time] [Burst Time] [Deadline]","Oops !",JOptionPane.ERROR_MESSAGE);
           }
           setName();
-          setNote();
           t.start();
           
     }//GEN-LAST:event_startProgram
@@ -439,7 +445,9 @@ public class EDFUserInterface extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new EDFUserInterface().setVisible(true);
+                EDFUserInterface edf = new EDFUserInterface();
+                edf.setVisible(true);
+                edf.setNote();
             }
         });
     }
@@ -481,8 +489,9 @@ public class EDFUserInterface extends javax.swing.JFrame {
         notesL.setText("<html>" +
         "    Info <br> O : On Work Queue <br>" +
         "    - : On Waiting Queue <br>" +
+        "    F : Finished <br>" +
         "    I : CPU Idle <br>" +
-        "    M / OM : Missed <br>" +
+        "    M : Missed <br>" +
         "    S : Interrupted (only available in hard real time mode)" +
         "</html>");
     }
