@@ -80,6 +80,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Earliest Deadline First");
 
+        startButton.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         startButton.setText("Start Scheduling");
         startButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -87,27 +88,30 @@ public class EDFUserInterface extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Elapsed Time:");
 
+        awtText.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         awtText.setText("Average Waiting Time: ");
 
+        attText.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         attText.setText("Average Turnaround Time:");
 
+        inputText.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         inputText.setText("Input:");
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel5.setText("Information:");
 
+        outputText.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         outputText.setText("Output:");
-
-        awtL.setText("Not Available");
-
-        attL.setText("Not Available");
 
         jLabel7.setText(" ");
 
+        jobMissedText.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jobMissedText.setText("Job Missed:");
 
-        titleL.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        titleL.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
         titleL.setText("Earliest Deadline First Scheduling Simulator");
 
         copyrightL.setFont(new java.awt.Font("Verdana", 1, 12)); // NOI18N
@@ -117,6 +121,8 @@ public class EDFUserInterface extends javax.swing.JFrame {
         informationL.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         jScrollPane4.setViewportView(informationL);
 
+        notesL.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
         schedulingOutputTA.setEditable(false);
         schedulingOutputTA.setColumns(20);
         schedulingOutputTA.setFont(new java.awt.Font("Courier New", 0, 13)); // NOI18N
@@ -124,15 +130,18 @@ public class EDFUserInterface extends javax.swing.JFrame {
         jScrollPane5.setViewportView(schedulingOutputTA);
 
         jobInputTA.setColumns(20);
-        jobInputTA.setFont(new java.awt.Font("Courier New", 0, 13)); // NOI18N
+        jobInputTA.setFont(new java.awt.Font("Courier New", 0, 18)); // NOI18N
         jobInputTA.setRows(5);
         jobInputTA.setText("4\nJ1 0 2 3\nJ2 1 2 5\nJ3 2 2 6\nJ4 4 1 8");
         jScrollPane7.setViewportView(jobInputTA);
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel2.setText("Mode:");
 
+        combo_schedulingMode.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         combo_schedulingMode.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Soft Real Time", "Hard Real Time" }));
 
+        buttonLoadFromFile.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         buttonLoadFromFile.setText("Load From File");
         buttonLoadFromFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -175,7 +184,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jLabel5))
-                                .addGap(0, 10, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(timeL, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -205,20 +214,19 @@ public class EDFUserInterface extends javax.swing.JFrame {
                                 .addComponent(notesL, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(116, 116, 116)
-                                .addComponent(titleL))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(startButton)))
+                        .addContainerGap()
+                        .addComponent(startButton)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(titleL)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(41, 41, 41)
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(212, Short.MAX_VALUE)))
+                    .addContainerGap(244, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -236,13 +244,13 @@ public class EDFUserInterface extends javax.swing.JFrame {
                         .addGap(3, 3, 3)
                         .addComponent(buttonLoadFromFile)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 195, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(startButton)
                         .addGap(13, 13, 13))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 59, Short.MAX_VALUE))
+                        .addGap(0, 48, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(combo_schedulingMode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -270,7 +278,7 @@ public class EDFUserInterface extends javax.swing.JFrame {
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(410, 410, 410)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
                     .addGap(86, 86, 86)))
         );
 
